@@ -1,10 +1,10 @@
 # qulacs_debug
 
-qulacs でデバッグしたい時に試している方法
+qulacs-osaka でデバッグしたい時に試している方法
 
 ## ディレクトリ構造
 
-devcontainerを利用している前提。
+[qulacs-osaka](https://github.com/Qulacs-Osaka/qulacs-osaka) が用意している devcontainer を利用している前提。
 
 ```
 pwd
@@ -56,7 +56,19 @@ g++ main.cpp -O2 -g -fopenmp --coverage -I/workspaces/qulacs-osaka/include -L/wo
 
 ## VSCode で gdb debug
 
-まずはプログラムをデバッグオプション(`-g`)付きでビルドする。
+まずは qulacs-osaka をデバッグビルドする。
+`script/build_gcc.sh` の `CMAKE_BUILD_TYPE` を `Debug` に変更して実行する。
+
+```diff
+- cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=$GCC_COMMAND -D CMAKE_CXX_COMPILER=$GXX_COMMAND -D OPT_FLAGS="$OPT_FLAGS" -D CMAKE_BUILD_TYPE=Release -D USE_GPU:STR=No ..
++ cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=$GCC_COMMAND -D CMAKE_CXX_COMPILER=$GXX_COMMAND -D OPT_FLAGS="$OPT_FLAGS" -D CMAKE_BUILD_TYPE=Debug -D USE_GPU:STR=No ..
+```
+
+```bash
+./script/build_gcc.sh
+```
+
+デバッグしたいプログラムも同様にデバッグオプション(`-g`)付きでビルドする。
 
 ```
 cd /workspaces/qulacs-osaka/qulacs_debug
